@@ -23,13 +23,13 @@ parser = Trollop::Parser.new do
 Poker table generator
 
 Usage:
-  poker <table_type> [options]
+  poker <game_type> [options]
 
-where <table_type> is:
-  mtt
-    Multi Table Tournament
-  ring
-    Ring table
+where <game_type> is either:
+  omaha
+  holdem
+  royal
+
 where [options] are:
 EOS
 
