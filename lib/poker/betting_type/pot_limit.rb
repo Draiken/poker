@@ -5,5 +5,9 @@ module Poker
     def initialize(pot_size, min = 1)
       super(min..pot_size)
     end
+
+    def name
+      "Pot Limit"
+    end
   end # PotLimit
 end # Poker

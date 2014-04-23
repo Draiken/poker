@@ -27,5 +27,9 @@ module Poker
     def ==(other)
       self.cards == other.cards
     end
+
+    def to_s
+      cards.to_s
+    end
   end # Deck
 end # Poker

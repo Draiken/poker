@@ -6,5 +6,9 @@ module Poker
     def initialize(min = 1)
       super(min..Float::INFINITY)
     end
+
+    def name
+      "No Limit"
+    end
   end
 end # Poker

@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require 'poker'
+
+require 'trollop'
+
+game = case ARGV.shift
+       when "holdem"
+         Poker::Holdem.new
+       when "omaha"
+         Poker::Omaha.new
+       when "royal"
+         Poker::Royal.new
+       end
+
+
+parser = Trollop::Parser.new do
+  banner <<-EOS
+Poker table generator
+
+Usage:
+  poker <table_type> [options]
+
+where <table_type> is:
+  mtt
+    Multi Table Tournament
+  ring
+    Ring table
+where [options] are:
+EOS
+
+  opt :bets, "The betting type. Accepted values are: nl, pl, fl", required: true, type: :string
+  opt :limit, "The betting limit. Used with the fixed limit betting type", type: :integer
+  opt :min_bet, "The minimal betting value. Used in fixed limit and pot limit betting types", default: 1
+  opt :type, "The table type. Accepted values are: ring, mtt", type: :string, required: true
+  opt :pot, "The pot size. Used with the pot limit betting type", type: :integer
+end
+
+opts = Trollop::with_standard_exception_handling(parser) do
+  raise Trollop::HelpNeeded if game.nil?
+  parser.parse ARGV
+end
+
+type = opts[:type]
+
+if !%w(ring mtt).include?(type)
+  parser.die "Invalid table type. Please use ring or mtt", nil
+end
+
+betting_type = case opts[:bets]
+               when "nl"
+                 Poker::NoLimit.new(opts[:min_bet])
+               when "pl"
+                 if opts[:pot]
+                   Poker::PotLimit.new(opts[:pot], opts[:min_bet])
+                 else
+                   parser.die :bets, "Must set a --pot when using pot limit betting type"
+                 end
+               when "fl"
+                 if opts[:limit]
+                   Poker::FixedLimit.new(opts[:limit])
+                 else
+                   parser.die :bets, "Must set a --limit when using fixed limit betting type"
+                 end
+               else
+                 parser.die :bets, "Invalid betting type. Please use one of the following: nl, pl, fl"
+               end
+
+table = Poker::Table.new(game: game,
+                         betting_type: betting_type,
+                         type: type)
+
+require 'poker/printer'
+
+Poker::Printer.new(table).print

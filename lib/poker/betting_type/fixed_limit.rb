@@ -4,6 +4,10 @@ module Poker
       @limit = limit
     end
 
+    def name
+      "Fixed Limit"
+    end
+
     def min_raise
       @limit
     end
