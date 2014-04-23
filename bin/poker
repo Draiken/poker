@@ -8,6 +8,10 @@ require 'poker'
 
 require 'trollop'
 
+# all this cli logic should be moved to a CLI class/module inside the poker
+# lib, so that it can be properly tested too.
+
+
 game = case ARGV.shift
        when "holdem"
          Poker::Holdem.new
