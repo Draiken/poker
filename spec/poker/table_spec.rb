@@ -13,33 +13,31 @@ module Poker
 
     describe "#deal_hole_cards" do
       it "delegates to the game" do
-        expect(game).to receive(:deal_hole_cards)
-
-        subject.deal_hole_cards
+        hole_cards = double
+        expect(game).to receive(:deal_hole_cards).and_return(hole_cards)
+        expect(subject.deal_hole_cards).to eq hole_cards
       end
     end
 
     describe "#deal_board_cards" do
       it "delegates to the game" do
-        expect(game).to receive(:deal_board_cards)
-
-        subject.deal_board_cards
+        board_cards = double
+        expect(game).to receive(:deal_board_cards).and_return(board_cards)
+        expect(subject.deal_board_cards).to eq board_cards
       end
     end
 
     describe "#min_raise" do
       it "delegates to the betting type" do
-        expect(betting_type).to receive(:min_raise)
-
-        subject.min_raise
+        expect(betting_type).to receive(:min_raise).and_return(1)
+        expect(subject.min_raise).to eq 1
       end
     end
 
     describe "#max_raise" do
       it "delegates to the betting type" do
-        expect(betting_type).to receive(:max_raise)
-
-        subject.max_raise
+        expect(betting_type).to receive(:max_raise).and_return(1)
+        expect(subject.max_raise).to eq 1
       end
     end
   end
