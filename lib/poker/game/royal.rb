@@ -2,7 +2,7 @@ module Poker
   class Royal < Game
 
     def initialize
-      @deck = Deck.new(Deck.deck_cards(10..14))
+      @deck = Deck.new(10..14)
     end
 
     def name

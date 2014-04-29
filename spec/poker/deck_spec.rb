@@ -2,13 +2,13 @@ require 'spec_helper'
 
 module Poker
   describe Deck do
-    let(:cards) { %w(1s 2s 3s) }
+    let(:range) { 1..3 }
 
-    subject { Deck.new(cards)}
+    subject { Deck.new(range) }
 
-    describe ".deck_cards" do
+    describe "#build_cards" do
       it "contains all cards and suits" do
-        cards = Deck.deck_cards(2..14)
+        cards = subject.build_cards(2..14)
         (2..14).each do |n|
           Deck::SUITS.each do |suit|
             expect(cards).to include "#{n}#{suit}"

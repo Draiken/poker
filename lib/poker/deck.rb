@@ -4,18 +4,9 @@ module Poker
 
     attr_reader :cards
 
-    def self.deck_cards(range = 2..14)
-      [].tap do |cards|
-        range.each do |n|
-          Deck::SUITS.each do |suit|
-            cards << "#{n}#{suit}" 
-          end
-        end
-      end
-    end
 
-    def initialize(cards = Deck.deck_cards)
-      @cards = cards
+    def initialize(range = 2..14)
+      @cards = build_cards(range)
     end
 
     def draw(quantity)
@@ -30,6 +21,15 @@ module Poker
 
     def to_s
       cards.to_s
+    end
+
+    def build_cards(range)
+      range.inject([]) do |cards, number|
+        Deck::SUITS.each do |suit|
+          cards << "#{number}#{suit}" 
+        end
+        cards
+      end
     end
   end # Deck
 end # Poker
