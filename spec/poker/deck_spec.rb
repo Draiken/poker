@@ -2,10 +2,6 @@ require 'spec_helper'
 
 module Poker
   describe Deck do
-    let(:range) { 1..3 }
-
-    subject { Deck.new(range) }
-
     describe "#build_cards" do
       it "contains all cards and suits" do
         cards = subject.build_cards(2..14)
